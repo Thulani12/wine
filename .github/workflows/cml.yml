@@ -1,4 +1,4 @@
-name: Thulani 01 and Report with CML
+name: Thulani test 01 and Report with CML
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
           python-version: '3.x'
 
       - name: Set up CML
-        uses: iterative/setup-cml@v1
+        uses: iterative/setup-cml@v2
 
       - name: Train model
         run: |
