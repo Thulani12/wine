@@ -43,11 +43,23 @@ jobs:
           cml comment create report.md
 
           # Post reports as comments in GitHub PRs
+          # Append any extra metrics file
+          if [ -f metrics.txt ]; then
           cat metrics.txt >> report.md
-          cml comment create report.md
+          fi
 
-          echo "##Data viz" >> report.md
-          cml -publish feature_importance.png -- md >> report.md
-          cml -publish residuals_importance.png -- md >> report.md
-          cml-send-commet report.md
+          # Publish and embed images (returns a markdown link we append)
+          if [ -f feature_importance.png ]; then
+          echo "" >> report.md
+          cml publish feature_importance.png --md >> report.md
+          fi
+
+          if [ -f residuals_importance.png ]; then
+          echo "" >> report.md
+          cml publish residuals_importance.png --md >> report.md
+          fi
+
+          # Finally, post the markdown file as a comment
+          cml comment create report.md
+    
 
