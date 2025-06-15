@@ -1,6 +1,6 @@
 import pandas as pd 
-from sklearn.model_selection import train_test_split
-from sklearn.ensemble import RandomForestRegressor
+from scikit-learn.model_selection import train_test_split
+from scikit-learn.ensemble import RandomForestRegressor
 import matplotlib.pyplot as plt
 import seaborn as sns
 import numpy as np
@@ -83,3 +83,12 @@ plt.xlim((2.5,8.5))
 plt.tight_layout()
 plt.savefig("residuals.png",dpi=120) 
 
+# Example in train.py
+from scikit-learn.metrics import mean_squared_error
+# Assume model trained on X_train, y_train → predicts y_pred
+
+# ...training code...
+
+# Save results for CML
+with open("results.txt", "w") as f:
+    f.write("RMSE: 0.4567\n")  # Replace with actual calculated metric

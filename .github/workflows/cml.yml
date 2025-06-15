@@ -1,22 +1,29 @@
 name: Train and Report with CML
+
 on:
   push:
     branches: [ main ]
   pull_request:
     branches: [ main ]
 
+permissions:
+  contents: write
+  pull-requests: write
+
 jobs:
   train-and-report:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write        # allow commit comments
-      pull-requests: write   # allow PR comments
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.x'
-      - uses: iterative/setup-cml@v1
+
+      - name: Set up CML
+        uses: iterative/setup-cml@v1
 
       - name: Train model
         run: |
@@ -27,12 +34,10 @@ jobs:
         env:
           REPO_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Post reports as comments in GitHub PRs
-          cat metrics.txt >> report.md
+          echo "## Model Results" > report.md
+          if [ -f results.txt ]; then
+            cat results.txt >> report.md
+          else
+            echo "⚠️ No results.txt file found from training step." >> report.md
+          fi
           cml comment create report.md
-
-          echo "##Data viz" >> report.md
-          cml -publish feature_importance.png -- md >> report.md
-          cml -publish residuals_importance.png -- md >> report.md
-          cml-send-commet report.md
-
