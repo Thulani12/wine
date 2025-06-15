@@ -37,13 +37,13 @@ with open("metrics.txt", 'w') as outfile:
         outfile.write("Test variance explained: %2.1f%%\n" % test_score)
 
 # Post reports as comments in GitHub PRs
-          cat metrics.txt >> report.md
-          cml comment create report.md
+        cat metrics.txt >> report.md
+        cml comment create report.md
 
-          echo "##Data viz" >> report.md
-          cml -publish feature_importance.png -- md >> report.md
-          cml -publish residuals_importance.png -- md >> report.md
-          cml-send-commet report.md
+        echo "##Data viz" >> report.md
+        cml -publish feature_importance.png -- md >> report.md
+        cml -publish residuals_importance.png -- md >> report.md
+        cml-send-commet report.md
 
 
 
